@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div class="mypanel"></div>
+    
+    <script>
+        
+        const alg1 = 'natural';
+        const alg2 = 'tree nuts';
+        const alg2a = 'almond';
+        const alg2b = 'hazelnut';
+        const alg2c = 'coconut';
+        const alg2d = 'nuts';
+        const alg2e = 'cashew';
+        const alg3 = 'sesame';
+        const alg4 = 'mustard';
+        const alg5 = 'barley';
+        const alg6 = 'rye';
+
+        $.getJSON('https://api.edamam.com/api/food-database/v2/parser?app_id=ca2296e3&app_key=a2e456b4aee5d50b688e3b76c657f79f&upc=041570110973&nutrition-type=cooking&health=mustard-free&health=peanut-free&health=sesame-free&health=tree-nut-free', function (data) {
+
+            var contents = data.hints[0].food.foodContentsLabel;
+            let splitContents = contents.split(';');
+            for (let i = 0; i < splitContents.length; i++) {
+    
+                var match = splitContents.find(element => {
+                    if (element.toLowerCase().includes(alg1) || element.toLowerCase().includes(alg2) || element.toLowerCase().includes(alg2a) || element.toLowerCase().includes(alg2b) || element.toLowerCase().includes(alg2c) || element.toLowerCase().includes(alg2d) || element.toLowerCase().includes(alg2e) || element.toLowerCase().includes(alg3) || element.toLowerCase().includes(alg4) || element.toLowerCase().includes(alg5) || element.toLowerCase().includes(alg6)) {
+                        return element;
+                    }
+                });
+            };
+            // console.log(match);
+                
+            
+            var text = `Name: ${data.hints[0].food.label}<br>
+            <br>
+                        Ingredients: ${data.hints[0].food.foodContentsLabel}<br>
+                        <br>
+                        Allergens?: ${match}`
+
+
+            $(".mypanel").html(text);
+        });
+    </script>
+</body>
+</html>
